@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using ThirtyOne.Helpers;
 
 namespace ThirtyOne.Models
 {
-    class ComputerPlayer : Player
+    public class ComputerPlayer : Player
     {
         Random randomNumber;
         
@@ -27,7 +28,7 @@ namespace ThirtyOne.Models
             if (hand.CalculateScore() > 25 && !game.players.Any(Player => Player.hasKnocked) &&
                 randomNumber.Next(3) == 1)
             {
-                Console.WriteLine($"{name} knocks on the table");
+                lastAction = "Knocked";
                 //Knock
                 hasKnocked = true;
             }
@@ -36,12 +37,12 @@ namespace ThirtyOne.Models
                 //Decide if I should draw from table or from deck
                 if (game.tableCards.Any() && game.tableCards.Last().value >= 10 && randomNumber.Next(2) == 1)
                 {
-                    Console.WriteLine($"{name} draws a card from the table");
+                    lastAction = "draws a card from the table";
                     DrawFromTable(game);
                 }
                 else
                 {
-                    Console.WriteLine($"{name} draws a card from the deck");
+                    lastAction = "draws a card from the deck";
                     DrawFromDeck(game);
                 }
 
@@ -53,7 +54,7 @@ namespace ThirtyOne.Models
                 }
 
                 int index = hand.IndexOf(lst.OrderByDescending(l => l.Item2).First().Item1);
-                Console.WriteLine($"{name} drops {hand[index].ToString()}");
+                lastAction += $" and drops {hand[index].ToString()}";
                 DropCard(game, index);
             }
         }

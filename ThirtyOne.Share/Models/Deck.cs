@@ -22,7 +22,7 @@ namespace FirstProject.Models
             {
                 for (int rank = 0; rank < 13; rank++)
                 {
-                    Card card = new Card(suit, rank);
+                    Card card = new Card(suit, (rank + 1));
                     cards.Add(card);
                 }
             }

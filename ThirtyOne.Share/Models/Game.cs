@@ -1,4 +1,5 @@
 ﻿using FirstProject.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,11 @@ namespace ThirtyOne.Models
         public List<Card> tableCards { set; get; }
         public List<Player> players { set; get; }
         public Random random;
-        int currentTurn;
+        public int currentTurn;
+        
+        [JsonIgnore]
         public Player currentPlayer { get { return players[currentTurn]; } }
+        
         public Player winner { set; get; }
         GameState state { set; get; }
 
@@ -107,5 +111,22 @@ namespace ThirtyOne.Models
             else return false;
         }
 
+        public string SerializeGame()
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+            return JsonConvert.SerializeObject(this, jsonSerializerSettings);
+        }
+
+        public static Game DeserializeGame(string json)
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+            return JsonConvert.DeserializeObject<Game>(json, jsonSerializerSettings);
+        }
     }
 }

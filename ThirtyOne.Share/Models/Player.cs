@@ -9,6 +9,8 @@ namespace ThirtyOne.Models
         public string name { set; get; }
         public bool hasKnocked { set; get; }
 
+        public string lastAction { set; get; }
+
         public Player()
         {
             name = "";
